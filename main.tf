@@ -19,7 +19,8 @@ provider "openstack" {
 
 resource "openstack_images_image_v2" "rancheros" {
   name             = "RancherOS"
-  image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
+#  image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
+  local_file_path  = "/root/openstack/CentOS-7-aarch64-GenericCloud-2003.qcow2"
   container_format = "bare"
   disk_format      = "qcow2"
 
