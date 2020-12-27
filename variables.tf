@@ -2,7 +2,7 @@
 #### NEUTRON
 variable "external_network" {
   type    = string
-  default = "external-network"
+  default = "public"
 }
 
 # UUID of external gateway
@@ -19,7 +19,7 @@ variable "dns_ip" {
 #### VM parameters
 variable "flavor_rdo_test" {
   type    = string
-  default = "t2.medium"
+  default = "m1.small"
 }
 
 variable "network_rdo_test" {
