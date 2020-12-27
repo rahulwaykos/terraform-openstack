@@ -87,7 +87,7 @@ resource "openstack_compute_instance_v2" "rdo_test" {
   name        = "rdo_test"
   image_name  = openstack_images_image_v2.rancheros.name
   flavor_name = var.flavor_rdo_test
-  key_pair    = openstack
+  key_pair    = "openstack"
   
   network {
     port = openstack_networking_port_v2.rdo_test.id
