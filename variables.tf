@@ -17,12 +17,12 @@ variable "dns_ip" {
 }
 
 #### VM parameters
-variable "flavor_http" {
+variable "flavor_rdo_test" {
   type    = string
   default = "t2.medium"
 }
 
-variable "network_http" {
+variable "network_rdo_test" {
   type = map(string)
   default = {
     subnet_name = "subnet-http"
