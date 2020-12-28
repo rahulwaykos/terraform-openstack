@@ -11,25 +11,23 @@ terraform {
 provider "openstack" {
   user_name   = "admin"
   tenant_name = "admin"
-  password    = "e504e5d83ea74fa9"
-  auth_url    = "http://172.31.41.204:5000/v3"
+  password    = "8bda729eeaac4c66"
+  auth_url    = "http://172.31.33.3:5000/v3"
   region      = "RegionOne"
 }
 
 
-resource "openstack_images_image_v2" "rancheros" {
+resource "openstack_images_image_v2" "rdo_image" {
   name             = "RancherOS"
-#  image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
-  local_file_path  = "/root/openstack/CentOS-7-aarch64-GenericCloud-2003.qcow2"
+  image_source_url = "https://releases.rancher.com/os/latest/rancheros-openstack.img"
+#  local_file_path  = "/root/openstack/CentOS-7-aarch64-GenericCloud-2003.qcow2"
   container_format = "bare"
   disk_format      = "qcow2"
 
-  properties = {
-    key = "value"
-  }
+  
 }
 
-#### NETWORK CONFIGURATION ####
+
 
 # Router creation
 resource "openstack_networking_router_v2" "rdo_net" {
@@ -42,7 +40,7 @@ resource "openstack_networking_network_v2" "rdo_net" {
   name = "network-rdo_net"
 }
 
-#### HTTP SUBNET ####
+
 
 # Subnet rdo_test configuration
 resource "openstack_networking_subnet_v2" "rdo_test" {
@@ -80,34 +78,34 @@ resource "openstack_compute_secgroup_v2" "ssh" {
   }
 }
 
-#### INSTANCE HTTP ####
-#
+
+
 # Create instance
-#
-resource "openstack_compute_instance_v2" "rdo_test" {
-  name        = "rdo_test"
-  image_name  = openstack_images_image_v2.rancheros.name
-  flavor_name = var.flavor_rdo_test
-  key_pair    = "openstack"
+
+#resource "openstack_compute_instance_v2" "rdo_test" {
+#  name        = "rdo_test"
+#  image_name  = openstack_images_image_v2.rdo_image.name
+#  flavor_name = var.flavor_rdo_test
+#  key_pair    = "openstack"
   
-  network {
-    port = openstack_networking_port_v2.rdo_test.id
-  }
-}
+#  network {
+ #   port = openstack_networking_port_v2.rdo_test.id
+ # }
+#}
 
 # Create network port
-resource "openstack_networking_port_v2" "rdo_test" {
-  name           = "port-instance-rdo_test"
-  network_id     = openstack_networking_network_v2.rdo_net.id
-  admin_state_up = true
-  security_group_ids = [
-    openstack_compute_secgroup_v2.ssh.id,
-    openstack_compute_secgroup_v2.rdo_test.id,
-  ]
-  fixed_ip {
-    subnet_id = openstack_networking_subnet_v2.rdo_test.id
-  }
-}
+#resource "openstack_networking_port_v2" "rdo_test" {
+#  name           = "port-instance-rdo_test"
+#  network_id     = openstack_networking_network_v2.rdo_net.id
+#  admin_state_up = true
+#  security_group_ids = [
+#    openstack_compute_secgroup_v2.ssh.id,
+#    openstack_compute_secgroup_v2.rdo_test.id,
+#  ]
+#  fixed_ip {
+#    subnet_id = openstack_networking_subnet_v2.rdo_test.id
+#  }
+#}
 
 # Create floating ip
 resource "openstack_networking_floatingip_v2" "rdo_test" {
@@ -115,11 +113,16 @@ resource "openstack_networking_floatingip_v2" "rdo_test" {
 }
 
 # Attach floating ip to instance
-resource "openstack_compute_floatingip_associate_v2" "rdo_test" {
-  floating_ip = openstack_networking_floatingip_v2.rdo_test.address
-  instance_id = openstack_compute_instance_v2.rdo_test.id
-}
+#resource "openstack_compute_floatingip_associate_v2" "rdo_test" {
+#  floating_ip = openstack_networking_floatingip_v2.rdo_test.address
+#  instance_id = openstack_compute_instance_v2.rdo_test.id
+#}
 
-
+#output "some_output_values" {
+#  value = openstack_compute_instance_v2.rdo_test.name
+#}
+#output "some_output_values_" {
+#value = openstack_compute_instance_v2.rdo_test.access_ip_v4
+#}
 
 
