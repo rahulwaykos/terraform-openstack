@@ -1,14 +1,14 @@
 
-#### NEUTRON
+
 variable "external_network" {
   type    = string
   default = "public"
 }
 
-# UUID of external gateway
+
 variable "external_gateway" {
   type    = string
-  default = "93210dd9-23bc-457a-8969-dc692b35a8f9"
+  default = "7112bce3-f554-449e-b58b-5501b3381f47"
 }
 
 variable "dns_ip" {
@@ -16,7 +16,7 @@ variable "dns_ip" {
   default = ["8.8.8.8", "8.8.8.4"]
 }
 
-#### VM parameters
+
 variable "flavor_rdo_test" {
   type    = string
   default = "m1.small"
@@ -25,7 +25,7 @@ variable "flavor_rdo_test" {
 variable "network_rdo_test" {
   type = map(string)
   default = {
-    subnet_name = "subnet-http"
+    subnet_name = "subnet"
     cidr        = "192.168.1.0/24"
   }
 }
